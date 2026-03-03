@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teacher Signup</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .signup-card {
+            width: 100%;
+            max-width: 400px;
+            background: white;
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        .error-message {
+            background: #ffe5e5;
+            color: #c0392b;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        label {
+            font-weight: 500;
+            display: block;
+            margin-bottom: 6px;
+            margin-top: 12px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #11998e;
+            outline: none;
+            box-shadow: 0 0 5px rgba(17,153,142,0.4);
+        }
+
+        button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: #11998e;
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #0f8a7d;
+            transform: translateY(-2px);
+        }
+
+        .login-link {
+            display: block;
+            text-align: center;
+            margin-top: 18px;
+            text-decoration: none;
+            color: #11998e;
+            font-weight: 500;
+        }
+
+        .login-link:hover {
+            text-decoration: underline;
+        }
+
+        .icon-title {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #11998e;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="signup-card">
+
+    <div class="icon-title">
+        <i class="fas fa-user-plus fa-2x"></i>
+    </div>
+
+    <h2>Teacher Signup</h2>
+
+    {% if error %}
+    <div class="error-message">
+        <i class="fas fa-exclamation-circle"></i> {{ error }}
+    </div>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label><i class="fas fa-id-badge"></i> Teacher ID</label>
+        <input type="text" name="teacherId" placeholder="Enter Teacher ID" required>
+
+        <label><i class="fas fa-lock"></i> Password</label>
+        <input type="password" name="password" placeholder="Enter Password" required>
+
+        <button type="submit">
+            <i class="fas fa-user-check"></i> Signup
+        </button>
+    </form>
+
+    <a href="{% url 'login' %}" class="login-link">
+        Already have account? Login
+    </a>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mark Attendance</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 40px 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            background: #fff;
+            padding: 35px 40px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        .title-icon {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #667eea;
+        }
+
+        .message {
+            background: #e6fffa;
+            color: #067d68;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .date-section {
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        input[type="date"] {
+            padding: 8px 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            margin-left: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th {
+            background: #667eea;
+            color: white;
+            padding: 14px;
+            font-weight: 500;
+        }
+
+        table td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        table tr:hover {
+            background-color: #f4f6ff;
+        }
+
+        .radio-group input[type="radio"] {
+            transform: scale(1.2);
+            cursor: pointer;
+        }
+
+        .present {
+            color: green;
+            font-weight: 500;
+        }
+
+        .absent {
+            color: red;
+            font-weight: 500;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 25px;
+            border: none;
+            border-radius: 8px;
+            background: #667eea;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 25px;
+            text-decoration: none;
+            color: #667eea;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="title-icon">
+        <i class="fas fa-clipboard-check fa-2x"></i>
+    </div>
+
+    <h2>Mark Attendance</h2>
+
+    {% if success %}
+    <div class="message">
+        <i class="fas fa-check-circle"></i> {{ success }}
+    </div>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="date-section">
+            <i class="fas fa-calendar-alt"></i>
+            <label for="date">Select Date:</label>
+            <input type="date" id="date" name="date" value="{{ today }}" required>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th><i class="fas fa-id-card"></i> Reg No</th>
+                    <th><i class="fas fa-user"></i> Name</th>
+                    <th class="present"><i class="fas fa-check"></i> Present</th>
+                    <th class="absent"><i class="fas fa-times"></i> Absent</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                <tr>
+                    <td>{{ student.studentReg }}</td>
+                    <td>{{ student.studentName }}</td>
+                    <td class="radio-group">
+                        <input type="radio" name="status_{{ student.id }}" value="Present" required>
+                    </td>
+                    <td class="radio-group">
+                        <input type="radio" name="status_{{ student.id }}" value="Absent" required>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <button type="submit">
+            <i class="fas fa-save"></i> Save Attendance
+        </button>
+    </form>
+
+    <a href="{% url 'dashboard' %}" class="back-link">
+        <i class="fas fa-arrow-left"></i> Back to Dashboard
+    </a>
+
+</div>
+
+</body>
+</html>

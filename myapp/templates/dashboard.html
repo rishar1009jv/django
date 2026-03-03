@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teacher Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            background: #f3f4f6;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: #1e293b;
+            color: white;
+            height: 100vh;
+            padding: 30px 20px;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 20px;
+        }
+
+        .menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            margin-bottom: 12px;
+            text-decoration: none;
+            color: #e2e8f0;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+        .menu a:hover {
+            background: #334155;
+        }
+
+        .menu img {
+            width: 22px;
+        }
+
+        /* Main Content */
+        .main {
+            flex: 1;
+            padding: 50px;
+        }
+
+        .main h1 {
+            margin-top: 0;
+            font-size: 28px;
+            color: #111827;
+        }
+
+        .welcome-box {
+            margin-top: 20px;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        }
+
+        @media(max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="sidebar">
+        <h2>Teacher Panel</h2>
+
+        <div class="menu">
+            <a href="{% url 'students' %}">
+                <img src="https://img.icons8.com/color/96/students.png">
+                Manage Students
+            </a>
+
+            <a href="{% url 'attendance' %}">
+                <img src="https://img.icons8.com/color/96/checklist.png">
+                Mark Attendance
+            </a>
+
+            <a href="{% url 'view_attendance' %}">
+                <img src="https://img.icons8.com/color/96/document.png">
+                View Attendance
+            </a>
+
+            <a href="{% url 'add_subject' %}">
+                <img src="https://img.icons8.com/color/96/book.png">
+                Add Subject
+            </a>
+
+            <a href="{% url 'marksheet' %}">
+                <img src="https://img.icons8.com/color/96/report-card.png">
+                Marksheet
+            </a>
+
+            <a href="{% url 'teacher_certificate_students' %}">
+                <img src="https://img.icons8.com/color/96/certificate.png">
+                Certificates
+            </a>
+
+            <a href="{% url 'login' %}">
+                <img src="https://img.icons8.com/color/96/logout-rounded.png">
+                Logout
+            </a>
+        </div>
+    </div>
+
+    <div class="main">
+        <h1>Welcome, Teacher 👩‍🏫</h1>
+
+        <div class="welcome-box">
+            Select an option from the left menu to manage your classroom activities.
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Attendance Register</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            padding: 30px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        .present {
+            color: green;
+            font-weight: bold;
+        }
+
+        .absent {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Attendance Register</h2>
+
+<table>
+    <tr>
+        <th>S.No</th>
+        <th>Reg No</th>
+        <th>Student Name</th>
+        {% for date in dates %}
+            <th>{{ date }}</th>
+        {% endfor %}
+    </tr>
+
+    {% for row in attendance_data %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ row.student.studentReg }}</td>
+
+        <td>{{ row.student.studentName }}</td>
+
+        {% for status in row.records %}
+            <td class="{% if status == 'Present' %}present{% elif status == 'Absent' %}absent{% endif %}">
+                {% if status == 'Present' %}
+                    P
+                {% elif status == 'Absent' %}
+                    A
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+
+<br>
+<a href="{% url 'dashboard' %}">Back to Dashboard</a>
+
+</body>
+</html>

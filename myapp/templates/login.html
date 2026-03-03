@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Teacher Friendly</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #6a11cb, #2c7be5, #ff6fcf);
+            background-size: 400% 400%;
+            animation: gradientMove 15s ease infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        @keyframes gradientMove {
+            0% {background-position: 0% 50%;}
+            50% {background-position: 100% 50%;}
+            100% {background-position: 0% 50%;}
+        }
+
+        .login-container {
+            background: white;
+            width: 850px;
+            max-width: 95%;
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+            display: flex;
+            overflow: hidden;
+        }
+
+        .illustration {
+            width: 45%;
+            background: url('https://img.icons8.com/color/480/school-building.png') no-repeat center;
+            background-size: contain;
+            background-color: #f8f9fa;
+        }
+
+        .login-form {
+            width: 55%;
+            padding: 40px 30px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #2f3640;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 25px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: 600;
+            border-bottom: 3px solid transparent;
+            transition: 0.3s;
+        }
+
+        .tab.active {
+            border-color: #2c7be5;
+            color: #2c7be5;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 12px 12px 38px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: #2c7be5;
+            box-shadow: 0 0 6px rgba(44,123,229,0.3);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: #2c7be5;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .login-btn:hover {
+            background: #1a68d1;
+            transform: translateY(-2px);
+        }
+
+        .signup-link {
+            display: block;
+            text-align: center;
+            margin-top: 8px;
+            font-size: 14px;
+            text-decoration: none;
+            color: #2c7be5;
+        }
+
+        .signup-link:hover {
+            text-decoration: underline;
+        }
+
+        .error {
+            background: #ffe5e5;
+            color: #d8000c;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .login-container {
+                flex-direction: column;
+            }
+
+            .illustration {
+                width: 100%;
+                height: 200px;
+            }
+
+            .login-form {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="login-container">
+
+    <div class="illustration"></div>
+
+    <div class="login-form">
+        <h2>Login</h2>
+
+        {% if error %}
+        <div class="error">{{ error }}</div>
+        {% endif %}
+
+        <div class="tabs">
+            <div class="tab active" data-tab="teacher">Teacher</div>
+            <div class="tab" data-tab="student">Student</div>
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <!-- IMPORTANT: Hidden user_type for backend -->
+            <input type="hidden" name="user_type" id="user_type" value="teacher">
+
+            <!-- Teacher Login -->
+            <div id="teacher" class="tab-content active">
+                <div class="input-group">
+                    <i class="fas fa-id-badge"></i>
+                    <input type="text" name="teacherId" placeholder="Teacher ID">
+                </div>
+
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" name="password" placeholder="Password">
+                </div>
+
+                <a href="{% url 'signup' %}" class="signup-link">
+                    Create new account
+                </a>
+            </div>
+
+            <!-- Student Login -->
+            <div id="student" class="tab-content">
+                <div class="input-group">
+                    <i class="fas fa-id-card"></i>
+                    <input type="text" name="studentReg" placeholder="Register Number">
+                </div>
+
+                <div class="input-group">
+                    <i class="fas fa-user-graduate"></i>
+                    <input type="text" name="studentName" placeholder="Student Name">
+                </div>
+            </div>
+
+            <button type="submit" class="login-btn">Login</button>
+
+        </form>
+    </div>
+</div>
+
+<script>
+    const tabs = document.querySelectorAll('.tab');
+    const contents = document.querySelectorAll('.tab-content');
+    const userTypeInput = document.getElementById('user_type');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+
+            contents.forEach(c => c.classList.remove('active'));
+            document.getElementById(tab.dataset.tab).classList.add('active');
+
+            // IMPORTANT: update hidden field
+            userTypeInput.value = tab.dataset.tab;
+        });
+    });
+</script>
+
+</body>
+</html>

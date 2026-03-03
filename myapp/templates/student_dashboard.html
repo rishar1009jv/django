@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ff9966, #ff5e62);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .dashboard-card {
+            width: 100%;
+            max-width: 450px;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .welcome-text {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .dashboard-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 12px 0;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .upload-btn {
+            background: #ff5e62;
+            color: white;
+        }
+
+        .upload-btn:hover {
+            background: #e64c50;
+            transform: translateY(-2px);
+        }
+
+        .logout-btn {
+            background: #f1f1f1;
+            color: #333;
+        }
+
+        .logout-btn:hover {
+            background: #ddd;
+        }
+
+        .icon {
+            margin-bottom: 15px;
+            color: #ff5e62;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="dashboard-card">
+
+    <div class="icon">
+        <i class="fas fa-user-graduate fa-2x"></i>
+    </div>
+
+    <h2>Student Dashboard</h2>
+    <p class="welcome-text">Welcome Student 👋</p>
+
+    <a href="{% url 'certificate' %}" class="dashboard-btn upload-btn">
+        <i class="fas fa-upload"></i> Upload Certificate
+    </a>
+
+    <a href="{% url 'login' %}" class="dashboard-btn logout-btn">
+        <i class="fas fa-sign-out-alt"></i> Logout
+    </a>
+
+</div>
+
+</body>
+</html>

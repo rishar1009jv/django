@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Students List</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #36d1dc, #5b86e5);
+            padding: 40px 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table th {
+            background: #5b86e5;
+            color: white;
+            padding: 14px;
+            text-align: left;
+        }
+
+        table td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        table tr:hover {
+            background-color: #f4f8ff;
+        }
+
+        .view-btn {
+            display: inline-block;
+            padding: 6px 12px;
+            background: #36d1dc;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .view-btn:hover {
+            background: #2bbac4;
+        }
+
+        .empty-text {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2><i class="fas fa-users"></i> Students List</h2>
+
+    <table>
+        <tr>
+            <th><i class="fas fa-id-card"></i> Reg No</th>
+            <th><i class="fas fa-user"></i> Name</th>
+            <th><i class="fas fa-folder-open"></i> Action</th>
+        </tr>
+
+        {% for student in students %}
+        <tr>
+            <td>{{ student.studentReg }}</td>
+            <td>{{ student.studentName }}</td>
+            <td>
+                <a href="{% url 'view_student_certificates' student.id %}" class="view-btn">
+                    <i class="fas fa-eye"></i> View Certificates
+                </a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3" class="empty-text">
+                <i class="fas fa-info-circle"></i> No students found
+            </td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+</div>
+
+</body>
+</html>

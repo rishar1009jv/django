@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Marksheet</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #e0e7ff, #f8fafc);
+            padding: 40px 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: auto;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.08);
+        }
+
+        .header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .header i {
+            font-size: 24px;
+            color: #1e293b;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 26px;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .success {
+            background: #ecfdf5;
+            color: #065f46;
+            padding: 14px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: 500;
+            border: 1px solid #a7f3d0;
+        }
+
+        /* TABLE WRAPPER */
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: 12px;
+            border: 1px solid #d1d5db;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 900px;
+            background: white;
+        }
+
+        thead {
+            background: #1e293b;
+        }
+
+        thead th {
+            color: #ffffff;
+            padding: 16px;
+            font-weight: 600;
+            text-align: center;
+            font-size: 14px;
+            border-right: 1px solid rgba(255,255,255,0.15);
+        }
+
+        thead th:last-child {
+            border-right: none;
+        }
+
+        tbody td {
+            padding: 16px;
+            text-align: center;
+            border: 1px solid #e5e7eb;
+            font-size: 14px;
+        }
+
+        tbody tr:nth-child(even) {
+            background: #f9fafb;
+        }
+
+        tbody tr:hover {
+            background: #e0e7ff;
+            transition: 0.2s ease;
+        }
+
+        tbody td:first-child {
+            font-weight: 600;
+            color: #111827;
+            background: #f3f4f6;
+        }
+
+        input[type="number"] {
+            width: 75px;
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid #cbd5e1;
+            text-align: center;
+            font-size: 13px;
+            transition: all 0.2s ease;
+        }
+
+        input[type="number"]:focus {
+            border-color: #2563eb;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
+        }
+
+        button {
+            width: 100%;
+            margin-top: 30px;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            background: #2563eb;
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(37,99,235,0.2);
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 25px;
+            text-decoration: none;
+            color: #2563eb;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 25px;
+            }
+
+            thead th, tbody td {
+                padding: 10px;
+            }
+
+            input[type="number"] {
+                width: 60px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <i class="fas fa-clipboard-list"></i>
+        <h1>Marksheet Management</h1>
+    </div>
+
+    {% if success %}
+        <div class="success">
+            <i class="fas fa-check-circle"></i> {{ success }}
+        </div>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th><i class="fas fa-user"></i> Student</th>
+                    {% for subject in subjects %}
+                        <th>{{ subject.subject_name }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+
+            <tbody>
+            {% for student in students %}
+            <tr>
+                <td>{{ student.studentName }}</td>
+
+                {% for subject in subjects %}
+                <td>
+                    <input type="number"
+                           name="mark_{{ student.id }}_{{ subject.id }}"
+                           value="{% for mark in student.mark_set.all %}{% if mark.subject.id == subject.id %}{{ mark.marks }}{% endif %}{% endfor %}">
+                </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+
+        <button type="submit">
+            <i class="fas fa-save"></i> Save All Marks
+        </button>
+    </form>
+
+    <a href="{% url 'dashboard' %}" class="back-link">
+        <i class="fas fa-arrow-left"></i> Back to Dashboard
+    </a>
+
+</div>
+
+</body>
+</html>
